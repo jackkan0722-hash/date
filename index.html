@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>給豬豬的浪漫約會邀請 💖</title>
+    <!-- 引入 Google Fonts 圓體與浪漫手寫風字體 -->
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 50%, #e8eaf6 100%);
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            color: #5c4033;
+        }
+
+        /* 背景花朵裝飾 */
+        .flower-bg {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.25;
+            animation: floatFlower 6s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes floatFlower {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(10deg); }
+        }
+
+        /* 主卡片容器 */
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 182, 193, 0.4);
+            border-radius: 28px;
+            box-shadow: 0 16px 40px rgba(216, 112, 147, 0.15);
+            width: 90%;
+            max-width: 440px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 步驟頁面隱藏/顯示 */
+        .step {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 標題與文字 */
+        h1 {
+            font-size: 1.6rem;
+            color: #c2185b;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        p.subtitle {
+            font-size: 0.95rem;
+            color: #886063;
+            margin-bottom: 20px;
+        }
+
+        /* 按鈕群組 */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+            position: relative;
+            min-height: 80px;
+            align-items: center;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff80ab, #ff4081);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 28px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 64, 129, 0.35);
+            transition: transform 0.2s, background 0.2s, font-size 0.2s, padding 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 64, 129, 0.45);
+        }
+
+        /* 「不要」按鈕的特殊動態樣式 */
+        #no-btn {
+            background: linear-gradient(135deg, #e0e0e0, #bdbdbd);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: all 0.15s ease-out;
+        }
+
+        /* 日期選擇輸入框 */
+        input[type="date"] {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ffb6c1;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            text-align: center;
+            color: #5c4033;
+            background: #fffafa;
+            outline: none;
+            margin-bottom: 24px;
+            transition: border-color 0.2s;
+        }
+
+        input[type="date"]:focus {
+            border-color: #ff4081;
+        }
+
+        /* 食物選項網格 */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .food-card {
+            background: #fff;
+            border: 2px solid #fce4ec;
+            border-radius: 18px;
+            padding: 16px 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .food-card span:first-child {
+            font-size: 2rem;
+        }
+
+        .food-card span:last-child {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #6d4c41;
+        }
+
+        .food-card:hover {
+            border-color: #ff4081;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 64, 129, 0.15);
+        }
+
+        .food-card.selected {
+            background: #ffe4e1;
+            border-color: #ff4081;
+            box-shadow: 0 6px 18px rgba(255, 64, 129, 0.25);
+        }
+
+        /* 浪漫情書區塊 */
+        .love-letter {
+            background: #fffdf9;
+            border: 1.5px dashed #ffb6c1;
+            border-radius: 20px;
+            padding: 24px 20px;
+            text-align: left;
+            font-size: 0.98rem;
+            line-height: 1.8;
+            color: #4a3b32;
+            margin-bottom: 24px;
+            box-shadow: inset 0 2px 8px rgba(255, 182, 193, 0.1);
+        }
+
+        .love-letter p {
+            margin-bottom: 12px;
+        }
+
+        .love-letter p:last-child {
+            margin-bottom: 0;
+            text-align: right;
+            font-weight: bold;
+            color: #c2185b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 隨機背景花朵裝飾 -->
+    <div class="flower-bg" style="top: 10%; left: 8%;">🌸</div>
+    <div class="flower-bg" style="top: 20%; right: 10%; animation-delay: 1s;">🌷</div>
+    <div class="flower-bg" style="bottom: 15%; left: 12%; animation-delay: 2s;">💖</div>
+    <div class="flower-bg" style="bottom: 20%; right: 8%; animation-delay: 1.5s;">✨</div>
+    <div class="flower-bg" style="top: 50%; left: 3%; animation-delay: 2.5s;">🌸</div>
+
+    <div class="card">
+        <!-- 步驟 1：約會邀請 -->
+        <div id="step-1" class="step active">
+            <h1>🌸 要不要跟我去約會？ 🌸</h1>
+            <p class="subtitle">這是一場精心策劃的浪漫之約，請謹慎選擇哦～</p >
+            <div class="btn-group" id="btn-container">
+                <button class="btn" id="yes-btn" onclick="nextStep(2)">好哦 💖</button>
+                <button class="btn" id="no-btn">不要 🙈</button>
+            </div>
+        </div>
+
+        <!-- 步驟 2：選擇日期 -->
+        <div id="step-2" class="step">
+            <h1>🗓️ 選擇我們的約會日期</h1>
+            <p class="subtitle">挑一個你最期待的日子吧！</p >
+            <input type="date" id="date-picker">
+            <button class="btn" onclick="confirmDate()">就這天！✨</button>
+        </div>
+
+        <!-- 步驟 3：選擇食物 -->
+        <div id="step-3" class="step">
+            <h1>🍽️ 今天想吃點什麼呢？</h1>
+            <p class="subtitle">點選你想品嚐的美食：</p >
+            <div class="food-grid">
+                <div class="food-card" onclick="selectFood(this, '火鍋')">
+                    <span>🍲</span><span>火鍋</span>
+                </div>
+                <div class="food-card" onclick="selectFood(this, '牛肉麵')">
+                    <span>🥩</span><span>牛肉麵</span>
+                </div>
+                <div class="food-card" onclick="selectFood(this, '滷肉飯')">
+                    <span>🍚</span><span>滷肉飯</span>
+                </div>
+                <div class="food-card" onclick="selectFood(this, '夜市小吃')">
+                    <span>🍢</span><span>夜市小吃</span>
+                </div>
+                <div class="food-card" onclick="selectFood(this, '烤肉')">
+                    <span>🥓</span><span>烤肉</span>
+                </div>
+                <div class="food-card" onclick="selectFood(this, '拉麵')">
+                    <span>🍜</span><span>拉麵</span>
+                </div>
+            </div>
+            <button class="btn" id="food-next-btn" onclick="nextStep(4)" style="display: none;">決定好了！💌</button>
+        </div>
+
+        <!-- 步驟 4：浪漫情書 -->
+        <div id="step-4" class="step">
+            <h1>💌 給最可愛的妳</h1>
+            <div class="love-letter">
+                <p>親愛的豬豬：</p >
+                <p>很高興能和妳一起敲定我們的專屬約會！在選定好的 <span id="display-date" style="color: #c2185b; font-weight: bold;">這一天</span>，我們將一起去品嚐美味的 <span id="display-food" style="color: #c2185b; font-weight: bold;">美食</span>。</p >
+                <p>生活因為有妳的陪伴而充滿了溫暖與甜蜜。不管日常多忙碌，最期待的永遠是和你在一起的每一個悠閒時光。</p >
+                <p>準備好和我一起出發了嗎？❤️</p >
+                <p>— 永遠愛妳的閃亮男友</p >
+            </div>
+            <button class="btn" onclick="resetApp()">再看一次 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let selectedDateText = "";
+        let selectedFoodText = "";
+        let noClickCount = 0;
+
+        function nextStep(step) {
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step-${step}`).classList.add('active');
+            currentStep = step;
+        }
+
+        // 步驟 1：「不要」按鈕逃跑與「好哦」變大機制
+        const noBtn = document.getElementById('no-btn');
+        const yesBtn = document.getElementById('yes-btn');
+
+        function moveNoButton() {
+            noClickCount++;
+            
+            // 讓「好哦」按鈕每次點擊或靠近時變大一點
+            let currentSize = 1.05 + (noClickCount * 0.12);
+            let currentPaddingV = 12 + (noClickCount * 2);
+            let currentPaddingH = 28 + (noClickCount * 4);
+            
+            yesBtn.style.fontSize = `${currentSize}rem`;
+            yesBtn.style.padding = `${currentPaddingV}px ${currentPaddingH}px`;
+
+            // 計算隨機位置讓「不要」按鈕跳走
+            const cardRect = document.querySelector('.card').getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            const maxX = cardRect.width - btnRect.width - 40;
+            const maxY = 120;
+            
+            const randomX = (Math.random() - 0.5) * maxX;
+            const randomY = (Math.random() - 0.5) * maxY;
+
+            noBtn.style.position = 'relative';
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        // 支援滑鼠靠近與點擊時逃跑
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // 步驟 2：確認日期
+        function confirmDate() {
+            const dateInput = document.getElementById('date-picker').value;
+            if (!dateInput) {
+                alert('請先選擇一個浪漫的日子哦～ 🗓️');
+                return;
+            }
+            // 格式化日期顯示
+            const dateObj = new Date(dateInput);
+            selectedDateText = `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
+            document.getElementById('display-date').innerText = selectedDateText;
+            nextStep(3);
+        }
+
+        // 步驟 3：選擇食物
+        function selectFood(element, foodName) {
+            document.querySelectorAll('.food-card').forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedFoodText = foodName;
+            document.getElementById('display-food').innerText = selectedFoodText;
+            document.getElementById('food-next-btn').style.display = 'inline-block';
+        }
+
+        // 重置應用程式
+        function resetApp() {
+            noClickCount = 0;
+            yesBtn.style.fontSize = '1.05rem';
+            yesBtn.style.padding = '12px 28px';
+            noBtn.style.transform = 'translate(0, 0)';
+            document.getElementById('date-picker').value = '';
+            document.querySelectorAll('.food-card').forEach(card => card.classList.remove('selected'));
+            document.getElementById('food-next-btn').style.display = 'none';
+            nextStep(1);
+        }
+    </script>
+</body>
+</html>
